@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "codex-side-sync": {
+      "command": "node",
+      "args": ["dist/server.mjs"],
+      "cwd": "."
+    }
+  }
+}

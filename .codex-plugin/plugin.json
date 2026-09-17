@@ -1,0 +1,20 @@
+{
+  "name": "codex-side-sync",
+  "version": "0.1.0",
+  "description": "Experimental local Side snapshots with caller-selected full or incremental queries; no transcript persistence.",
+  "author": {
+    "name": "Iridium1024"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Iridium1024/codex-side-sync",
+  "interface": {
+    "displayName": "Codex Side Sync",
+    "shortDescription": "Read live Side chats on demand, without UI operations.",
+    "longDescription": "Windows-only experimental MCP tools for live Codex Side snapshots. Explicit full/incremental selection, ephemeral metadata cursors, no transcript files, no background monitoring. Depends on private Desktop IPC.",
+    "developerName": "Iridium1024",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": ["Inspect the available Side query tools and their limits."]
+  },
+  "mcpServers": "./.mcp.json"
+}
