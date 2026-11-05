@@ -1,5 +1,27 @@
 # Codex Side Sync · v0.1.0 Pre-release
 
+<!-- current-status-20261105 -->
+> [!IMPORTANT]
+> **先更新 Codex，并检查当前会话是否提供内置会话读取工具。** 截至 2026-11-05，本项目定位为旧环境的实验性兼容工具。若内置工具已能读取目标 Side，可直接使用该能力。
+
+## 当前状态与使用建议（2026-11-05）
+
+Codex 已提供会话历史读取能力，近期更新也继续改善历史分页和 Side 导航。本项目最初解决的部分需求已可由这些能力满足。官方更新记录中的 CLI/TUI 改动与 Desktop 功能发布时间应分别看待。[官方更新记录](https://learn.chatgpt.com/docs/changelog)
+
+- **当前环境优先使用内置读取工具。** 本机 Codex Desktop 26.1029.7803.0 中，已用内置 `read_thread` 读取一个持久化 Side 的用户消息、助手进度和最终回复。此结果仅覆盖本机样本，其他安装环境需检查工具是否可用及目标 Side 是否可读。
+- **开发独立客户端时，可参考官方 App Server。** `thread/read` 读取元数据，`thread/turns/list` 和 `thread/items/list` 分页读取历史；`itemsView: "full"` 可请求完整条目。分页游标用于遍历历史，同 ID 消息修改、删除及重复读取仍需客户端处理。[官方 App Server 文档](https://learn.chatgpt.com/docs/app-server)
+- **现有发行包存在已确认的持久化 Side 兼容问题。** v0.1.0 自动发现会排除已写入 `threads` 表的 Side；按 ID 读取时又要求 `ephemeral=true`，因此会把新版 `sideConversation=true, ephemeral=false` 的 Side 判为 `not_side`。同一次排查中的本地 v0.1.1 开发版也复现了这两处问题。修复需要同时覆盖发现与身份校验；本次文档更新未交付该兼容修复。
+- **历史适用范围。** 原发行版验证于 Desktop 26.908.9136.0、快照协议 11，面向仍存活的临时 Side。本机新版 Desktop 仍使用协议 11，但身份语义已变化，协议版本相同不足以证明兼容。升级后应先验证目标 Side 的实际读取。
+- **仍有用途的场景。** 缺少可用内置读取工具的旧环境，以及需要明确的每 Side 游标和新增、修改、删除差异输出的集成。使用旧发行包前需自行核验兼容性。去掉 MCP 外壳、直接运行本地读取代码仍依赖相同的私有 IPC。
+
+全量/增量的上下文开销取决于返回给主会话的内容。本地可以获取完整快照并比较指纹，只返回差异；未变化的旧正文无需再次输出。被修改的消息会返回整条新正文。内置历史分页读取与本项目的指纹增量有各自的合并规则，不能仅凭分页游标承诺等价的差异语义。
+
+本次为状态说明更新。下文保留发行版的安装和接口说明，适用范围以本节为准。
+
+**Current status (2026-11-05).** Prefer built-in conversation reading when available and verified for the target Side. A local test read a persistent Side through Codex's built-in `read_thread`. Official App Server documentation provides metadata and paginated history APIs. The published v0.1.0 runtime excludes persisted Side IDs during discovery and rejects `ephemeral=false` during reads; this documentation update does not fix those behaviors. Legacy temporary-Side integrations and explicit fingerprint-based deltas remain possible use cases, subject to compatibility checks. Pagination alone does not establish equivalent update/deletion semantics.
+
+<!-- /current-status-20261105 -->
+
 Windows 本地、按需读取已存活的 Codex Desktop Side 会话。提供 MCP 工具与 CLI，插件只是分发封装；不包含 Skill，也不替 Agent 决定何时同步、选择哪个 Side、使用全量还是增量。
 
 **实验性接口**：底层依赖 Desktop 私有 IPC，而非 OpenAI 承诺兼容的公开 Side API。已实测 Desktop `26.908.9136.0`，快照协议版本 `11`。新版本可能失效；检测到协议或数据结构不匹配时明确报错。
