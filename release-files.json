@@ -1,0 +1,9 @@
+[
+  ".codex-plugin/plugin.json",
+  ".mcp.json",
+  "README.md",
+  "LICENSE",
+  "dist/server.mjs",
+  "dist/cli.mjs",
+  "dist/THIRD_PARTY_NOTICES.txt"
+]

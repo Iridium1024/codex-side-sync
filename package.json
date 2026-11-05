@@ -1,0 +1,31 @@
+{
+  "name": "codex-side-sync",
+  "version": "0.2.0",
+  "private": true,
+  "author": "Iridium1024",
+  "license": "MIT",
+  "repository": "https://github.com/Iridium1024/codex-side-sync",
+  "type": "module",
+  "description": "Experimental on-demand local Codex Side snapshots and explicit incremental sync",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "start": "node dist/server.mjs",
+    "cli": "node src/cli.mjs",
+    "smoke": "node scripts/live-smoke.mjs",
+    "audit:release": "node scripts/release-audit.mjs",
+    "release": "node scripts/release.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
+    "esbuild": "0.28.2",
+    "fflate": "0.8.3"
+  }
+}
